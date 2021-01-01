@@ -9,39 +9,42 @@ class Photo extends Model
 {
     use HasFactory;
 
-
-  
-    // photo has many comment
+    // photo has many comments
     public function comments() {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany('App\Models\Comment');
     }
-    // Photo belongs to a group
-    public function group(){
+
+    // photo belongs to a group
+    public function group()
+    {
         return $this->belongsTo('App\Models\Group');
     }
-    // Essai mais marche pas
-    public function user(){
-        return $this->belongsTo('App\Models\User');
+
+    // photo belongs to an user
+    public function owner()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
-    //Photo has pivot class for user
-    public function Users()
+    // photo belongs to many user
+    public function users()
     {
-        return $this->belongsToMany('App\Models\User')
-                    ->using("App\Models\PhotoUser");
+        return $this->belongsToMany('App\Models\User')->using('App\Models\PhotoUser');
     }
 
     // photo belongs to many tag
-    public function tag(){
-        return $this->belongsToMany('App\Models\Tag');
+    public function tags()
+    {
+        return $this->belongsToMany('App\Models\Tag')->using('App\Models\PhotoTag');
     }
 
-    //Photo has pivot class for tags
-    public function Tags()
+    protected static function booted()
     {
-        return $this->belongsToMany('App\Models\Tag')
-                    ->using("App\Models\PhotoTag");
+        // verifie si la photo appartient au propietaire
+        static::creating(function ($photo) {
+            return in_array($photo->group->id, $photo->owner->groups->pluck('id')->all());
+        });
     }
+
 
 }
- 

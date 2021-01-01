@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class GroupUser extends Pivot
 {
     use HasFactory;
+
+    protected $table = 'group_user';
+
+    // incrementation de l'id
+    public $incrementing = true;
 }
