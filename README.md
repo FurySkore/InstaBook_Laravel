@@ -1,3 +1,7 @@
+# Difficultés rencontrés
+- Les 2 premiers test de la partie B ( mail envoyé mais ne marche toujours pas)
+# Solution
+Je me suis beaucoup basé sur les tests du TODO qu'on avait déja fait
 # Instabook : partage de photos avec des groupes d'ami. 
 
 ## Contexte
